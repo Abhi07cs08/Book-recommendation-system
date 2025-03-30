@@ -1,0 +1,201 @@
+user_id,book_id,rating,review
+U008,B008,2.9,The plot was a bit slow but overall enjoyable.
+U003,B015,4.5,"Mediocre pacing, could be better."
+U006,B018,3.5,The plot was a bit slow but overall enjoyable.
+U004,B001,1.2,A refreshing narrative with a unique voice.
+U006,B009,5.0,A refreshing narrative with a unique voice.
+U001,B020,2.4,Exceptional character development and storyline.
+U010,B019,1.2,An indie masterpiece with a fresh perspective.
+U003,B008,3.4,Beautifully written and emotionally engaging.
+U005,B006,4.2,Beautifully written and emotionally engaging.
+U009,B015,2.4,A refreshing narrative with a unique voice.
+U006,B002,4.1,"A promising start, but fell short in execution."
+U010,B007,3.4,An indie masterpiece with a fresh perspective.
+U006,B006,4.9,Beautifully written and emotionally engaging.
+U005,B020,3.8,Beautifully written and emotionally engaging.
+U003,B020,4.9,"Too predictable, lacked depth."
+U003,B018,1.1,The plot was a bit slow but overall enjoyable.
+U010,B008,2.1,Exceptional character development and storyline.
+U007,B018,1.6,The plot was a bit slow but overall enjoyable.
+U002,B018,1.4,"Not my cup of tea, but others might love it."
+U007,B003,4.0,An indie masterpiece with a fresh perspective.
+U006,B010,4.4,A hidden gem that captivated me.
+U006,B010,1.7,A refreshing narrative with a unique voice.
+U010,B018,1.7,"Mediocre pacing, could be better."
+U004,B011,2.1,The plot was a bit slow but overall enjoyable.
+U003,B017,1.5,The plot was a bit slow but overall enjoyable.
+U002,B001,3.3,A hidden gem that captivated me.
+U009,B002,1.5,"Too predictable, lacked depth."
+U001,B004,2.7,"Mediocre pacing, could be better."
+U010,B016,4.3,The plot was a bit slow but overall enjoyable.
+U001,B019,1.9,An indie masterpiece with a fresh perspective.
+U007,B004,1.4,An indie masterpiece with a fresh perspective.
+U006,B001,3.3,"Not my cup of tea, but others might love it."
+U005,B005,1.4,Beautifully written and emotionally engaging.
+U002,B003,3.2,"Too predictable, lacked depth."
+U006,B002,2.0,"Mediocre pacing, could be better."
+U001,B010,4.2,An indie masterpiece with a fresh perspective.
+U009,B018,3.4,"A promising start, but fell short in execution."
+U001,B010,2.4,An indie masterpiece with a fresh perspective.
+U006,B004,4.9,The plot was a bit slow but overall enjoyable.
+U002,B007,2.6,"Not my cup of tea, but others might love it."
+U005,B008,3.4,Beautifully written and emotionally engaging.
+U007,B011,4.1,An indie masterpiece with a fresh perspective.
+U007,B006,1.5,Beautifully written and emotionally engaging.
+U004,B017,2.5,Exceptional character development and storyline.
+U008,B006,2.6,"Mediocre pacing, could be better."
+U008,B012,3.2,"A promising start, but fell short in execution."
+U006,B002,4.4,The plot was a bit slow but overall enjoyable.
+U004,B012,2.0,"Too predictable, lacked depth."
+U001,B007,1.6,A refreshing narrative with a unique voice.
+U010,B006,3.1,The plot was a bit slow but overall enjoyable.
+U003,B005,1.4,"Not my cup of tea, but others might love it."
+U003,B016,4.4,Exceptional character development and storyline.
+U002,B019,3.6,Beautifully written and emotionally engaging.
+U006,B004,4.3,A refreshing narrative with a unique voice.
+U003,B019,5.0,"A promising start, but fell short in execution."
+U008,B006,2.9,Beautifully written and emotionally engaging.
+U005,B005,3.4,"Mediocre pacing, could be better."
+U008,B020,3.4,"Mediocre pacing, could be better."
+U002,B006,1.9,An indie masterpiece with a fresh perspective.
+U001,B019,2.8,A refreshing narrative with a unique voice.
+U009,B016,2.0,"Not my cup of tea, but others might love it."
+U001,B004,3.0,"Mediocre pacing, could be better."
+U007,B012,3.6,Exceptional character development and storyline.
+U002,B006,3.1,A refreshing narrative with a unique voice.
+U008,B020,1.8,Beautifully written and emotionally engaging.
+U008,B005,4.4,"Too predictable, lacked depth."
+U002,B011,1.7,A hidden gem that captivated me.
+U003,B017,1.2,An indie masterpiece with a fresh perspective.
+U009,B016,2.3,A hidden gem that captivated me.
+U009,B019,2.3,The plot was a bit slow but overall enjoyable.
+U003,B006,4.5,"Mediocre pacing, could be better."
+U001,B018,1.0,A refreshing narrative with a unique voice.
+U007,B020,4.5,Beautifully written and emotionally engaging.
+U003,B016,1.1,Beautifully written and emotionally engaging.
+U007,B005,4.2,Exceptional character development and storyline.
+U007,B014,2.5,"Too predictable, lacked depth."
+U009,B006,1.9,"Not my cup of tea, but others might love it."
+U003,B017,4.0,The plot was a bit slow but overall enjoyable.
+U003,B011,2.3,A hidden gem that captivated me.
+U010,B008,1.4,"Not my cup of tea, but others might love it."
+U009,B009,2.1,"Mediocre pacing, could be better."
+U007,B017,4.0,"Mediocre pacing, could be better."
+U001,B015,3.3,The plot was a bit slow but overall enjoyable.
+U007,B010,3.9,A hidden gem that captivated me.
+U003,B013,1.5,"A promising start, but fell short in execution."
+U003,B007,3.8,"Too predictable, lacked depth."
+U008,B017,1.8,"Not my cup of tea, but others might love it."
+U003,B010,1.8,"Too predictable, lacked depth."
+U009,B013,3.1,Beautifully written and emotionally engaging.
+U001,B018,1.7,Exceptional character development and storyline.
+U005,B003,1.4,The plot was a bit slow but overall enjoyable.
+U006,B014,1.3,Exceptional character development and storyline.
+U004,B008,4.0,An indie masterpiece with a fresh perspective.
+U003,B009,4.3,The plot was a bit slow but overall enjoyable.
+U002,B005,4.1,A hidden gem that captivated me.
+U005,B004,2.8,An indie masterpiece with a fresh perspective.
+U006,B005,4.9,Exceptional character development and storyline.
+U010,B008,1.5,"Too predictable, lacked depth."
+U009,B017,2.9,"Too predictable, lacked depth."
+U007,B007,4.3,"Too predictable, lacked depth."
+U008,B013,1.9,Beautifully written and emotionally engaging.
+U010,B001,1.9,"A promising start, but fell short in execution."
+U010,B008,1.6,A hidden gem that captivated me.
+U006,B011,2.3,Beautifully written and emotionally engaging.
+U004,B020,2.2,A refreshing narrative with a unique voice.
+U001,B020,4.3,"Not my cup of tea, but others might love it."
+U005,B003,4.8,A hidden gem that captivated me.
+U001,B012,2.8,"Mediocre pacing, could be better."
+U009,B004,1.6,An indie masterpiece with a fresh perspective.
+U010,B009,3.4,"Not my cup of tea, but others might love it."
+U009,B020,2.9,"A promising start, but fell short in execution."
+U001,B018,3.2,The plot was a bit slow but overall enjoyable.
+U010,B007,1.6,"Mediocre pacing, could be better."
+U009,B011,4.7,An indie masterpiece with a fresh perspective.
+U008,B018,4.5,"Too predictable, lacked depth."
+U009,B015,4.2,Exceptional character development and storyline.
+U003,B012,3.9,"A promising start, but fell short in execution."
+U010,B018,1.2,An indie masterpiece with a fresh perspective.
+U005,B015,2.0,Beautifully written and emotionally engaging.
+U003,B010,2.4,"Not my cup of tea, but others might love it."
+U001,B002,2.5,A refreshing narrative with a unique voice.
+U008,B005,3.7,"Too predictable, lacked depth."
+U007,B007,1.5,"Too predictable, lacked depth."
+U002,B010,4.0,"A promising start, but fell short in execution."
+U008,B006,1.4,"Mediocre pacing, could be better."
+U001,B017,4.6,An indie masterpiece with a fresh perspective.
+U002,B013,4.7,An indie masterpiece with a fresh perspective.
+U005,B006,2.0,Exceptional character development and storyline.
+U008,B001,4.6,"Not my cup of tea, but others might love it."
+U010,B006,4.6,"A promising start, but fell short in execution."
+U007,B016,2.5,"Mediocre pacing, could be better."
+U008,B002,4.2,A hidden gem that captivated me.
+U006,B009,1.4,"Not my cup of tea, but others might love it."
+U002,B018,4.0,A hidden gem that captivated me.
+U010,B009,1.2,"Too predictable, lacked depth."
+U001,B004,4.8,The plot was a bit slow but overall enjoyable.
+U005,B009,1.1,Exceptional character development and storyline.
+U009,B011,2.5,"A promising start, but fell short in execution."
+U005,B001,4.5,Beautifully written and emotionally engaging.
+U008,B016,1.7,"Not my cup of tea, but others might love it."
+U002,B009,4.6,The plot was a bit slow but overall enjoyable.
+U005,B013,1.1,The plot was a bit slow but overall enjoyable.
+U010,B013,1.2,Beautifully written and emotionally engaging.
+U006,B013,3.1,Beautifully written and emotionally engaging.
+U006,B017,3.9,Beautifully written and emotionally engaging.
+U009,B012,3.7,Exceptional character development and storyline.
+U001,B008,4.2,"Too predictable, lacked depth."
+U009,B016,4.6,Exceptional character development and storyline.
+U004,B008,2.4,A hidden gem that captivated me.
+U006,B011,4.8,"Not my cup of tea, but others might love it."
+U008,B007,2.4,An indie masterpiece with a fresh perspective.
+U004,B011,3.2,"Mediocre pacing, could be better."
+U009,B018,4.2,Beautifully written and emotionally engaging.
+U005,B015,3.5,Exceptional character development and storyline.
+U006,B019,1.7,A hidden gem that captivated me.
+U006,B015,2.1,Beautifully written and emotionally engaging.
+U001,B007,4.0,A refreshing narrative with a unique voice.
+U008,B014,1.8,The plot was a bit slow but overall enjoyable.
+U008,B001,3.4,"Mediocre pacing, could be better."
+U004,B006,1.3,"A promising start, but fell short in execution."
+U002,B001,3.4,"Not my cup of tea, but others might love it."
+U003,B016,2.5,"A promising start, but fell short in execution."
+U004,B009,5.0,An indie masterpiece with a fresh perspective.
+U005,B010,2.7,"Mediocre pacing, could be better."
+U004,B004,1.7,"Mediocre pacing, could be better."
+U005,B016,3.5,Beautifully written and emotionally engaging.
+U003,B013,1.8,The plot was a bit slow but overall enjoyable.
+U006,B016,4.9,The plot was a bit slow but overall enjoyable.
+U001,B015,2.8,A hidden gem that captivated me.
+U010,B010,1.8,Exceptional character development and storyline.
+U005,B004,2.4,Beautifully written and emotionally engaging.
+U007,B016,3.5,The plot was a bit slow but overall enjoyable.
+U001,B009,3.7,"Too predictable, lacked depth."
+U010,B015,4.6,Beautifully written and emotionally engaging.
+U010,B011,1.2,A refreshing narrative with a unique voice.
+U010,B005,3.0,The plot was a bit slow but overall enjoyable.
+U001,B010,2.1,"A promising start, but fell short in execution."
+U002,B009,2.4,"Mediocre pacing, could be better."
+U005,B006,1.0,Beautifully written and emotionally engaging.
+U004,B015,3.7,Beautifully written and emotionally engaging.
+U005,B019,2.0,"Mediocre pacing, could be better."
+U010,B009,2.7,"Mediocre pacing, could be better."
+U010,B006,3.7,"A promising start, but fell short in execution."
+U008,B008,3.2,"Not my cup of tea, but others might love it."
+U008,B011,1.3,The plot was a bit slow but overall enjoyable.
+U010,B016,1.8,An indie masterpiece with a fresh perspective.
+U008,B010,3.9,An indie masterpiece with a fresh perspective.
+U007,B002,5.0,A refreshing narrative with a unique voice.
+U008,B012,4.2,"Too predictable, lacked depth."
+U002,B003,4.8,A hidden gem that captivated me.
+U008,B010,2.5,"Not my cup of tea, but others might love it."
+U005,B018,3.0,A hidden gem that captivated me.
+U001,B009,3.2,"Not my cup of tea, but others might love it."
+U001,B012,3.0,A refreshing narrative with a unique voice.
+U010,B014,4.0,"A promising start, but fell short in execution."
+U005,B003,4.6,A refreshing narrative with a unique voice.
+U003,B001,2.1,Exceptional character development and storyline.
+U009,B013,4.3,Exceptional character development and storyline.
+U010,B005,2.1,A refreshing narrative with a unique voice.
+U005,B007,3.2,A hidden gem that captivated me.
