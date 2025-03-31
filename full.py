@@ -6,8 +6,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from networkx.algorithms import community
 import matplotlib.pyplot as plt
+import altair as alt
 
-# --- Page Configuration and Custom Styling ---
+# --- Page Configuration and Enhanced Styling ---
 st.set_page_config(
     page_title="BookNerd Recommendation System",
     page_icon="📚",
@@ -15,7 +16,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Add custom CSS for a modern look.
+# Custom CSS for a sleek, modern look.
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
@@ -50,11 +51,12 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# --- Header Banner ---
+st.image("https://source.unsplash.com/1600x400/?books,library", use_column_width=True)
 st.title("📚 BookNerd Recommendation System")
-st.write("Discover your next favorite indie book with our modern recommendation platform.")
+st.write("Discover your next favorite indie book with our modern, interactive recommendation platform.")
 
-# --- Functions for Data Loading, Graph Building, and Recommendations ---
-
+# --- Functions for Data, Graphs, and Recommendations ---
 def load_and_prepare_data(file_path):
     df = pd.read_csv(file_path)
     df['sentiment'] = df['review'].apply(lambda review: TextBlob(review).sentiment.polarity)
@@ -94,100 +96,104 @@ def recommend_books(user_id, rating_matrix, user_similarity_df, top_n=5, similar
     ranked_recs = sorted(rec_scores.items(), key=lambda x: x[1], reverse=True)
     return ranked_recs[:top_n]
 
-def plot_bipartite_graph(B):
-    users = [n for n, d in B.nodes(data=True) if d['bipartite'] == 'users']
-    pos = nx.bipartite_layout(B, users)
-    plt.figure(figsize=(8, 6))
-    nx.draw(B, pos, with_labels=True, node_size=300, font_size=8)
-    plt.title("Bipartite Graph: Users and Books")
-    st.pyplot(plt)
+def plot_most_popular_books(B):
+    degrees = B.degree()
+    book_degrees = [(node, deg) for node, deg in degrees if B.nodes[node].get('bipartite') == 'books']
+    df_books = pd.DataFrame(book_degrees, columns=['book', 'connections'])
+    top_books = df_books.sort_values(by='connections', ascending=False).head(10)
+    chart = alt.Chart(top_books).mark_bar().encode(
+        x=alt.X('book:N', title='Book ID'),
+        y=alt.Y('connections:Q', title='Number of Users'),
+        color=alt.Color('connections:Q', scale=alt.Scale(scheme='blues'))
+    ).properties(
+        width=600,
+        height=400,
+        title="Top 10 Most Popular Books"
+    )
+    st.altair_chart(chart, use_container_width=True)
 
 # --- Main Application ---
-
 def main():
-    # File path input.
-    file_path = st.text_input("Enter path to CSV file", "sample_dataset.csv")
+    # Sidebar: File Input and Graph Options
+    st.sidebar.header("Configuration")
+    file_path = st.sidebar.text_input("CSV File Path", "sample_dataset.csv")
     aggregated = load_and_prepare_data(file_path)
     
-    # Sidebar: Graph Analysis Options.
     st.sidebar.header("Graph Analysis Options")
     show_edges = st.sidebar.checkbox("Show Graph Edges")
     show_metrics = st.sidebar.checkbox("Show Graph Metrics")
-    show_popular = st.sidebar.checkbox("Show Most Popular Books")
-    show_influencers = st.sidebar.checkbox("Show Top Influencers")
     plot_graph_flag = st.sidebar.checkbox("Plot Graph")
+    show_popular_chart = st.sidebar.checkbox("Show Popular Books Chart")
     
     B = build_bipartite_graph(aggregated)
+    
     if show_edges:
-        st.markdown("**Graph Edges:**")
-        for u, v, data in B.edges(data=True):
-            st.write(f"{u} - {v} : {data['weight']:.2f}")
+        with st.expander("Graph Edges"):
+            for u, v, data in B.edges(data=True):
+                st.write(f"{u} - {v} : {data['weight']:.2f}")
     if show_metrics:
-        st.markdown("**Graph Metrics:**")
-        deg_centrality = nx.degree_centrality(B)
-        st.write("Degree Centrality (sample):")
-        for node, centrality in list(deg_centrality.items())[:5]:
-            st.write(f"Node {node}: {centrality:.3f}")
-        betw_centrality = nx.betweenness_centrality(B, weight='weight')
-        st.write("Betweenness Centrality (sample):")
-        for node, centrality in list(betw_centrality.items())[:5]:
-            st.write(f"Node {node}: {centrality:.3f}")
-    if show_popular:
-        st.markdown("**Most Popular Books:**")
-        degrees = B.degree()
-        book_degrees = [(node, deg) for node, deg in degrees if B.nodes[node].get('bipartite') == 'books']
-        top_books = sorted(book_degrees, key=lambda x: x[1], reverse=True)[:5]
-        for book, deg in top_books:
-            st.write(f"{book}: connected to {deg} users")
-    if show_influencers:
-        st.markdown("**Top Influential Users:**")
-        betw_centrality = nx.betweenness_centrality(B, weight='weight')
-        top_users = sorted(
-            [(n, c) for n, c in betw_centrality.items() if B.nodes[n].get('bipartite') == 'users'],
-            key=lambda x: x[1], reverse=True
-        )[:3]
-        for user, score in top_users:
-            st.write(f"{user}: {score:.3f}")
+        with st.expander("Graph Metrics"):
+            deg_centrality = nx.degree_centrality(B)
+            st.write("**Degree Centrality (sample):**")
+            for node, centrality in list(deg_centrality.items())[:5]:
+                st.write(f"{node}: {centrality:.3f}")
+            betw_centrality = nx.betweenness_centrality(B, weight='weight')
+            st.write("**Betweenness Centrality (sample):**")
+            for node, centrality in list(betw_centrality.items())[:5]:
+                st.write(f"{node}: {centrality:.3f}")
+    if show_popular_chart:
+        plot_most_popular_books(B)
     if plot_graph_flag:
-        plot_bipartite_graph(B)
+        with st.expander("Plot Graph"):
+            users = [n for n, d in B.nodes(data=True) if d['bipartite'] == 'users']
+            pos = nx.bipartite_layout(B, users)
+            plt.figure(figsize=(8, 6))
+            nx.draw(B, pos, with_labels=True, node_size=300, font_size=8)
+            plt.title("Bipartite Graph: Users and Books")
+            st.pyplot(plt)
     
     # Compute similarity metrics.
     rating_matrix, user_similarity_df = compute_similarity(aggregated)
     
-    st.header("Get Book Recommendations (Existing Users)")
-    user_id = st.text_input("Enter your User ID", "U003")
-    top_n = st.number_input("Number of recommendations", min_value=1, max_value=10, value=5, step=1)
-    similar_users_count = st.number_input("Number of similar users to consider", min_value=1, max_value=10, value=3, step=1)
-    if st.button("Get Recommendations"):
-        recommendations = recommend_books(user_id, rating_matrix, user_similarity_df, top_n=top_n, similar_users_count=similar_users_count)
-        if recommendations:
-            st.subheader(f"Recommendations for {user_id}:")
-            for book, score in recommendations:
-                st.write(f"**{book}** — Score: {score:.2f}")
-        else:
-            st.error("User not found or no recommendations available.")
+    # Use Columns for a split-screen layout.
+    col1, col2 = st.columns(2)
     
-    st.header("Custom Profile Recommendations")
-    st.write("Select the books you like to build your custom profile and get immediate recommendations.")
-    custom_liked_books = st.multiselect("Select books you like", options=sorted(aggregated['book_id'].unique()))
-    if st.button("Get Recommendations for Custom Profile"):
-        if not custom_liked_books:
-            st.error("Please select at least one book.")
-        else:
-            new_user_profile = pd.DataFrame([{"user_id": "CustomUser", "book_id": book, "edge_weight": 0.85} for book in custom_liked_books])
-            aggregated_custom = pd.concat([aggregated, new_user_profile], ignore_index=True)
-            rating_matrix_custom, user_similarity_df_custom = compute_similarity(aggregated_custom)
-            recommendations_custom = recommend_books("CustomUser", rating_matrix_custom, user_similarity_df_custom)
-            if recommendations_custom:
-                st.subheader("Recommendations for Your Custom Profile:")
-                for book, score in recommendations_custom:
+    with col1:
+        st.header("Get Recommendations (Existing User)")
+        user_id = st.text_input("Enter your User ID", "U003")
+        top_n = st.number_input("Number of recommendations", min_value=1, max_value=10, value=5, step=1)
+        similar_users_count = st.number_input("Similar users to consider", min_value=1, max_value=10, value=3, step=1)
+        if st.button("Get Recommendations"):
+            recommendations = recommend_books(user_id, rating_matrix, user_similarity_df, top_n=top_n, similar_users_count=similar_users_count)
+            if recommendations:
+                st.subheader(f"Recommendations for {user_id}:")
+                for book, score in recommendations:
                     st.write(f"**{book}** — Score: {score:.2f}")
             else:
-                st.error("No recommendations available for your custom profile.")
+                st.error("User not found or no recommendations available.")
+    
+    with col2:
+        st.header("Custom Profile Recommendations")
+        st.write("Select books you like from the list and get instant recommendations!")
+        custom_liked_books = st.multiselect("Select Books You Like", options=sorted(aggregated['book_id'].unique()))
+        if st.button("Get Custom Profile Recommendations"):
+            if not custom_liked_books:
+                st.error("Please select at least one book.")
+            else:
+                new_user_profile = pd.DataFrame([{"user_id": "CustomUser", "book_id": book, "edge_weight": 0.85} for book in custom_liked_books])
+                aggregated_custom = pd.concat([aggregated, new_user_profile], ignore_index=True)
+                rating_matrix_custom, user_similarity_df_custom = compute_similarity(aggregated_custom)
+                recommendations_custom = recommend_books("CustomUser", rating_matrix_custom, user_similarity_df_custom)
+                if recommendations_custom:
+                    st.subheader("Recommendations for Your Custom Profile:")
+                    for book, score in recommendations_custom:
+                        st.write(f"**{book}** — Score: {score:.2f}")
+                else:
+                    st.error("No recommendations available for your custom profile.")
     
     st.sidebar.header("All Users Recommendations")
-    if st.sidebar.checkbox("Recommend for all users"):
-        st.write("### Top Book Recommendations for All Users:")
+    if st.sidebar.checkbox("Show Recommendations for All Users"):
+        st.write("### Top Recommendations for All Users:")
         for user in rating_matrix.index:
             recs = recommend_books(user, rating_matrix, user_similarity_df, top_n=3)
             st.write(f"**{user}**:")
