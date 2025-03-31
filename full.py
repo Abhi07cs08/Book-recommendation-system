@@ -4,9 +4,9 @@ import networkx as nx
 from textblob import TextBlob
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-from networkx.algorithms import community
-import matplotlib.pyplot as plt
 import altair as alt
+import matplotlib.pyplot as plt
+from networkx.algorithms import community
 
 # --- Page Configuration and Enhanced Styling ---
 st.set_page_config(
@@ -52,11 +52,11 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- Header Banner ---
-st.image("https://source.unsplash.com/1600x400/?books,library", use_column_width=True)
 st.title("📚 BookNerd Recommendation System")
 st.write("Discover your next favorite indie book with our modern, interactive recommendation platform.")
 
 # --- Functions for Data, Graphs, and Recommendations ---
+
 def load_and_prepare_data(file_path):
     df = pd.read_csv(file_path)
     df['sentiment'] = df['review'].apply(lambda review: TextBlob(review).sentiment.polarity)
@@ -102,13 +102,72 @@ def plot_most_popular_books(B):
     df_books = pd.DataFrame(book_degrees, columns=['book', 'connections'])
     top_books = df_books.sort_values(by='connections', ascending=False).head(10)
     chart = alt.Chart(top_books).mark_bar().encode(
-        x=alt.X('book:N', title='Book ID'),
-        y=alt.Y('connections:Q', title='Number of Users'),
+        x=alt.X('book:N', title='Book'),
+        y=alt.Y('connections:Q', title='Number of Readers'),
         color=alt.Color('connections:Q', scale=alt.Scale(scheme='blues'))
     ).properties(
         width=600,
         height=400,
         title="Top 10 Most Popular Books"
+    )
+    st.altair_chart(chart, use_container_width=True)
+
+def plot_recommendations_chart(recommendations, title="Your Recommended Books"):
+    if recommendations:
+        df_recs = pd.DataFrame(recommendations, columns=["book", "score"])
+        chart = alt.Chart(df_recs).mark_bar().encode(
+            x=alt.X("book:N", title="Book"),
+            y=alt.Y("score:Q", title="Recommendation Score"),
+            color=alt.Color("score:Q", scale=alt.Scale(scheme='oranges'))
+        ).properties(
+            width=600,
+            height=400,
+            title=title
+        )
+        st.altair_chart(chart, use_container_width=True)
+    else:
+        st.write("No recommendations available.")
+
+# New functions for additional user-centric stats:
+def plot_top_rated_books(file_path):
+    # Compute average rating per book from raw data.
+    df = pd.read_csv(file_path)
+    top_rated = df.groupby('book_id')['rating'].mean().reset_index().sort_values(by='rating', ascending=False).head(10)
+    chart = alt.Chart(top_rated).mark_bar().encode(
+        x=alt.X('book_id:N', title='Book'),
+        y=alt.Y('rating:Q', title='Average Rating'),
+        color=alt.Color('rating:Q', scale=alt.Scale(scheme='reds'))
+    ).properties(
+        width=600,
+        height=400,
+        title="Top 10 Highest Rated Books"
+    )
+    st.altair_chart(chart, use_container_width=True)
+
+def plot_rating_distribution(file_path):
+    df = pd.read_csv(file_path)
+    chart = alt.Chart(df).mark_bar().encode(
+        x=alt.X('rating:Q', bin=alt.Bin(maxbins=20), title='Rating'),
+        y=alt.Y('count()', title='Count'),
+        color=alt.Color('count()', scale=alt.Scale(scheme='greens'))
+    ).properties(
+        width=600,
+        height=400,
+        title="Rating Distribution"
+    )
+    st.altair_chart(chart, use_container_width=True)
+
+def plot_most_active_users(aggregated):
+    user_counts = aggregated.groupby('user_id').size().reset_index(name='count')
+    top_users = user_counts.sort_values(by='count', ascending=False).head(10)
+    chart = alt.Chart(top_users).mark_bar().encode(
+        x=alt.X('user_id:N', title='User'),
+        y=alt.Y('count:Q', title='Books Reviewed'),
+        color=alt.Color('count:Q', scale=alt.Scale(scheme='purpleblue'))
+    ).properties(
+        width=600,
+        height=400,
+        title="Top 10 Most Active Users"
     )
     st.altair_chart(chart, use_container_width=True)
 
@@ -119,43 +178,40 @@ def main():
     file_path = st.sidebar.text_input("CSV File Path", "sample_dataset.csv")
     aggregated = load_and_prepare_data(file_path)
     
-    st.sidebar.header("Graph Analysis Options")
-    show_edges = st.sidebar.checkbox("Show Graph Edges")
-    show_metrics = st.sidebar.checkbox("Show Graph Metrics")
-    plot_graph_flag = st.sidebar.checkbox("Plot Graph")
-    show_popular_chart = st.sidebar.checkbox("Show Popular Books Chart")
+    st.sidebar.header("Visualizations")
+    show_popular_chart = st.sidebar.checkbox("Show Top 10 Popular Books Chart")
+    show_top_rated = st.sidebar.checkbox("Show Top 10 Highest Rated Books")
+    show_rating_dist = st.sidebar.checkbox("Show Rating Distribution")
+    show_active_users = st.sidebar.checkbox("Show Most Active Users")
+    show_adv_options = st.sidebar.checkbox("Show Advanced Options (for curious readers)")
     
     B = build_bipartite_graph(aggregated)
     
-    if show_edges:
-        with st.expander("Graph Edges"):
-            for u, v, data in B.edges(data=True):
-                st.write(f"{u} - {v} : {data['weight']:.2f}")
-    if show_metrics:
-        with st.expander("Graph Metrics"):
+    if show_popular_chart:
+        plot_most_popular_books(B)
+    if show_top_rated:
+        plot_top_rated_books(file_path)
+    if show_rating_dist:
+        plot_rating_distribution(file_path)
+    if show_active_users:
+        plot_most_active_users(aggregated)
+    
+    if show_adv_options:
+        with st.expander("Advanced: Graph Details"):
+            st.markdown("**Developer Stats (for the curious):**")
             deg_centrality = nx.degree_centrality(B)
-            st.write("**Degree Centrality (sample):**")
+            st.write("Sample Degree Centrality:")
             for node, centrality in list(deg_centrality.items())[:5]:
                 st.write(f"{node}: {centrality:.3f}")
             betw_centrality = nx.betweenness_centrality(B, weight='weight')
-            st.write("**Betweenness Centrality (sample):**")
+            st.write("Sample Betweenness Centrality:")
             for node, centrality in list(betw_centrality.items())[:5]:
                 st.write(f"{node}: {centrality:.3f}")
-    if show_popular_chart:
-        plot_most_popular_books(B)
-    if plot_graph_flag:
-        with st.expander("Plot Graph"):
-            users = [n for n, d in B.nodes(data=True) if d['bipartite'] == 'users']
-            pos = nx.bipartite_layout(B, users)
-            plt.figure(figsize=(8, 6))
-            nx.draw(B, pos, with_labels=True, node_size=300, font_size=8)
-            plt.title("Bipartite Graph: Users and Books")
-            st.pyplot(plt)
     
     # Compute similarity metrics.
     rating_matrix, user_similarity_df = compute_similarity(aggregated)
     
-    # Use Columns for a split-screen layout.
+    # Split-screen layout for recommendations.
     col1, col2 = st.columns(2)
     
     with col1:
@@ -163,20 +219,21 @@ def main():
         user_id = st.text_input("Enter your User ID", "U003")
         top_n = st.number_input("Number of recommendations", min_value=1, max_value=10, value=5, step=1)
         similar_users_count = st.number_input("Similar users to consider", min_value=1, max_value=10, value=3, step=1)
-        if st.button("Get Recommendations"):
+        if st.button("Get Recommendations for Existing User"):
             recommendations = recommend_books(user_id, rating_matrix, user_similarity_df, top_n=top_n, similar_users_count=similar_users_count)
             if recommendations:
                 st.subheader(f"Recommendations for {user_id}:")
                 for book, score in recommendations:
                     st.write(f"**{book}** — Score: {score:.2f}")
+                plot_recommendations_chart(recommendations, title=f"Recommendations for {user_id}")
             else:
                 st.error("User not found or no recommendations available.")
     
     with col2:
         st.header("Custom Profile Recommendations")
-        st.write("Select books you like from the list and get instant recommendations!")
+        st.write("Select the books you like and get instant recommendations!")
         custom_liked_books = st.multiselect("Select Books You Like", options=sorted(aggregated['book_id'].unique()))
-        if st.button("Get Custom Profile Recommendations"):
+        if st.button("Get Recommendations for Custom Profile"):
             if not custom_liked_books:
                 st.error("Please select at least one book.")
             else:
@@ -188,10 +245,11 @@ def main():
                     st.subheader("Recommendations for Your Custom Profile:")
                     for book, score in recommendations_custom:
                         st.write(f"**{book}** — Score: {score:.2f}")
+                    plot_recommendations_chart(recommendations_custom, title="Custom Profile Recommendations")
                 else:
                     st.error("No recommendations available for your custom profile.")
     
-    st.sidebar.header("All Users Recommendations")
+    st.sidebar.header("Extra Insights")
     if st.sidebar.checkbox("Show Recommendations for All Users"):
         st.write("### Top Recommendations for All Users:")
         for user in rating_matrix.index:
